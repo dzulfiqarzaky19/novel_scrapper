@@ -14,6 +14,7 @@ async function main() {
   app.get('/', async (_req, reply) => reply.send({ hello: 'world' }));
 
   await app.ready();
+
   app.log.info(`puppeteer decorated? ${Boolean((app as any).puppeteer)}`);
   app.log.info(`redis decorated? ${Boolean((app as any).redis)}`);
 
