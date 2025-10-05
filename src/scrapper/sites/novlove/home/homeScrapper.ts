@@ -1,6 +1,9 @@
-import { createJobScheduler } from '../../../utils/jobScheduler.js';
+import { FastifyInstance } from 'fastify';
 
-import { HOME_CONFIG } from './homeScrapper.const.js';
+import { createJobScheduler } from '#scrapper/utils/jobScheduler.js';
+import { evalOrEmpty } from '#scrapper/utils/evalManager.js';
+
+import { HOME_CONFIG } from './homeScrapper.config.js';
 import {
   parseCompleted,
   parseGenres,
@@ -15,8 +18,6 @@ import {
   normalizeHot,
   normalizeLatest,
 } from './homeScrapper.normalizers.js';
-import { FastifyInstance } from 'fastify';
-import { evalOrEmpty } from '../../../utils/evalManager.js';
 
 const scheduler = createJobScheduler(1, 1200);
 

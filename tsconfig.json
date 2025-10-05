@@ -23,7 +23,16 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
 
-    "isolatedModules": true
+    "isolatedModules": true,
+
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".", // required for paths to work
+    "paths": {
+      "#types/*": ["src/types/*"],
+      "#routes/*": ["src/routes/*"],
+      "#scrapper/*": ["src/scrapper/*"],
+      "#utils/*": ["src/utils/*"]
+    }
   },
   "include": ["src/**/*", "src/types/**/*.d.ts"],
   "exclude": ["node_modules", "dist"]
