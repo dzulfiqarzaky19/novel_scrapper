@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import { homeScrapper } from '../scrapper/sites/novlove/home/homeScrapper.js';
 import { redisCache } from '../utils/redisCache.js';
-import { sortScrapper } from '#scrapper/sites/novlove/sorts/listScrapper.js';
+import { sortScrapper } from '#scrapper/sites/novlove/list/listScrapper.js';
 
 const NOVLOVE_CONFIG = {
   home: {
