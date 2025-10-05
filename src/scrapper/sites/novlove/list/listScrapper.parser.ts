@@ -1,6 +1,6 @@
-import { SortConfig } from './listScrapper.config.js';
+import { ListConfig } from './listScrapper.config.js';
 
-export const parseSortRow = (rows: Element[], config: SortConfig) => {
+export const parseSortRow = (rows: Element[], config: ListConfig) => {
   const { cover, title, author, latestChapter } = config;
 
   return rows.map((row) => {

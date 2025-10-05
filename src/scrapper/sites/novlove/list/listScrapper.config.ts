@@ -1,4 +1,4 @@
-export const SORT_CONFIG = {
+export const LIST_CONFIG = {
   sort: 'https://novlove.com/sort/nov-love-',
   genre: 'https://novlove.com/nov-love-genres/',
 
@@ -24,4 +24,4 @@ export const SORT_CONFIG = {
   },
 } as const;
 
-export type SortConfig = typeof SORT_CONFIG;
+export type ListConfig = typeof LIST_CONFIG;

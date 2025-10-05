@@ -5,9 +5,9 @@ import {
   toPath,
 } from '../url.js';
 
-import { listNovel, NormalizedListNovel } from './listScrapper.model.js';
+import { ListNovel, NormalizedListNovel } from './listScrapper.model.js';
 
-export const normalizeList = (listNovel: listNovel[]): NormalizedListNovel[] =>
+export const normalizeList = (listNovel: ListNovel[]): NormalizedListNovel[] =>
   listNovel.map((list) => {
     const path = toPath(list.url);
     const chapterPath = toPath(list.latestChapter.url);
