@@ -5,7 +5,10 @@ export const redisCache = async <T>(
   key: string,
   ttl: number,
   fetcher: () => Promise<T>,
+  isSkipCache?: boolean,
 ): Promise<T> => {
+  if (isSkipCache) return fetcher();
+
   try {
     const cached = await fastify.redis.get(key);
 
