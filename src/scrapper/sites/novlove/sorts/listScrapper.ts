@@ -31,7 +31,7 @@ export const sortScrapper = async (
       );
 
       return {
-        sort: normalizeList(listRaw),
+        list: normalizeList(listRaw),
       };
     } finally {
       await page.close();
