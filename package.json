@@ -4,6 +4,12 @@
   "description": "A web novel scraper using Fastify + Puppeteer + TypeScript",
   "main": "dist/index.js",
   "type": "module",
+  "exports": {
+    "./@types/*": "./src/types/*",
+    "./@routes/*": "./src/routes/*",
+    "./@scrapper/*": "./src/scrapper/*",
+    "./@utils/*": "./src/utils/*"
+  },
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",

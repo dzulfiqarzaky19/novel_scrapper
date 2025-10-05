@@ -1,4 +1,4 @@
-import { HomeConfig } from './homeScrapper.const.js';
+import { HomeConfig } from './homeScrapper.config.js';
 
 export const parseHot = (elements: Element[], config: HomeConfig['hot']) => {
   const { title, img, coverAttr, full } = config;
