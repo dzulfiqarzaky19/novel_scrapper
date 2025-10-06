@@ -1,22 +1,27 @@
-import { createJobScheduler } from '#scrapper/utils/jobScheduler.js';
 import { FastifyInstance } from 'fastify';
+
 import { LIST_CONFIG } from './listScrapper.config.js';
-import fs from 'fs';
 import { parseSortRow } from './listScrapper.parser.js';
-import { evalOrEmpty } from '#scrapper/utils/evalManager.js';
 import { normalizeList } from './listScrapper.normalizer.js';
 
-const scheduler = createJobScheduler(1, 1200);
+import { evalOrEmpty } from '#scrapper/utils/evalOrEmpty.js';
+import { defaultScheduler } from '#scrapper/utils/jobScheduler.js';
 
 type ListType = 'genre' | 'sort';
 
-export const sortScrapper = async (
+interface IListScrapperConfig {
+  listBy: string;
+  listType: ListType;
+  query: string;
+}
+
+export const listScrapper = async (
   fastify: FastifyInstance,
-  listBy: string,
-  listType: ListType = 'sort',
-  query: string,
+  config: IListScrapperConfig,
 ) => {
-  return scheduler.addJob(async () => {
+  return defaultScheduler.addJob(async () => {
+    const { listBy, listType, query } = config;
+
     const queryString = query === '1' ? '' : `?page=${query}`;
     const pageUrl = `${LIST_CONFIG[listType]}${listBy}${queryString}`;
 
@@ -25,12 +30,12 @@ export const sortScrapper = async (
     ]);
 
     try {
-      const listRaw = await evalOrEmpty(
+      const listRaw = await evalOrEmpty({
         page,
-        LIST_CONFIG.selector,
-        parseSortRow,
-        LIST_CONFIG,
-      );
+        selector: LIST_CONFIG.selector,
+        parser: parseSortRow,
+        config: LIST_CONFIG,
+      });
 
       return {
         list: normalizeList(listRaw),
