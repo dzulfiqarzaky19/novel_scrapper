@@ -6,6 +6,7 @@ import { listScrapper } from '#scrapper/sites/novlove/list/listScrapper.js';
 
 import { GenreRequest, SortRequest } from 'src/model/novlove.model.js';
 import { NOVLOVE_CONFIG } from 'src/config/novlove.config.js';
+import { detailScrapper } from '#scrapper/sites/novlove/detail/detailScrapper.js';
 
 const list = {
   sort: 'sort',
@@ -66,5 +67,28 @@ export const NovloveController = (fastify: FastifyInstance) => {
     return res.send(data);
   };
 
-  return { home, sort, genre };
+  const novel = async (
+    req: FastifyRequest<{ Params: { novel: string } }>,
+    res: FastifyReply,
+  ) => {
+    const { novel } = req.params;
+
+    const data = await redisCache(fastify, {
+      key: NOVLOVE_CONFIG.detail.redis_key,
+      ttl: NOVLOVE_CONFIG.detail.ttl_seconds,
+      fetcher: () => detailScrapper(fastify, novel),
+    });
+
+    return res.send(data);
+  };
+
+  const chapter = async (req: FastifyRequest, res: FastifyReply) => {
+    const { name } = req.params;
+
+    const data = detailScrapper(fastify, name);
+
+    return res.send(data);
+  };
+
+  return { home, sort, genre, novel, chapter };
 };

@@ -1,6 +1,6 @@
 import {
   chapterSlugFromPath,
-  slugFromNovelPath,
+  slugFromPath,
   toAbsolute,
   toPath,
 } from '../url.js';
@@ -17,7 +17,7 @@ export const normalizeList = (listNovel: ListNovel[]): NormalizedListNovel[] =>
       author: list.author,
       absoluteUrl: toAbsolute(list.url),
       path,
-      slug: slugFromNovelPath(path),
+      slug: slugFromPath(path),
       coverAbsoluteUrl: toAbsolute(list.cover),
       latestChapter: {
         title: list.latestChapter.title,

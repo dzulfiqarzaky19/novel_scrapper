@@ -11,5 +11,6 @@ export const NovloveRedisDebugController = (fastify: FastifyInstance) => {
     home: () => getCache(NOVLOVE_CONFIG.home.redis_key),
     genre: () => getCache(NOVLOVE_CONFIG.genre.redis_key),
     sort: () => getCache(NOVLOVE_CONFIG.sort.redis_key),
+    detail: () => getCache(NOVLOVE_CONFIG.detail.redis_key),
   };
 };
