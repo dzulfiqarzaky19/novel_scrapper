@@ -15,3 +15,15 @@ export type GenreRequest = ListRequest & {
     genre: string;
   };
 };
+
+export type NovelRequest = {
+  Params: {
+    novel: string;
+  };
+};
+
+export type ChapterRequest = NovelRequest & {
+  Params: {
+    chapter: string;
+  };
+};

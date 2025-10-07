@@ -4,9 +4,15 @@ import { homeScrapper } from '#scrapper/sites/novlove/home/homeScrapper.js';
 import { redisCache } from '#utils/redisCache.js';
 import { listScrapper } from '#scrapper/sites/novlove/list/listScrapper.js';
 
-import { GenreRequest, SortRequest } from 'src/model/novlove.model.js';
+import {
+  ChapterRequest,
+  GenreRequest,
+  NovelRequest,
+  SortRequest,
+} from 'src/model/novlove.model.js';
 import { NOVLOVE_CONFIG } from 'src/config/novlove.config.js';
 import { detailScrapper } from '#scrapper/sites/novlove/detail/detailScrapper.js';
+import { chapterScrapper } from '#scrapper/sites/novlove/chapter/chapterScrapper.js';
 
 const list = {
   sort: 'sort',
@@ -68,13 +74,13 @@ export const NovloveController = (fastify: FastifyInstance) => {
   };
 
   const novel = async (
-    req: FastifyRequest<{ Params: { novel: string } }>,
+    req: FastifyRequest<NovelRequest>,
     res: FastifyReply,
   ) => {
     const { novel } = req.params;
 
     const data = await redisCache(fastify, {
-      key: NOVLOVE_CONFIG.detail.redis_key,
+      key: `${NOVLOVE_CONFIG.detail.redis_key}:${novel}`,
       ttl: NOVLOVE_CONFIG.detail.ttl_seconds,
       fetcher: () => detailScrapper(fastify, novel),
     });
@@ -82,10 +88,14 @@ export const NovloveController = (fastify: FastifyInstance) => {
     return res.send(data);
   };
 
-  const chapter = async (req: FastifyRequest, res: FastifyReply) => {
-    const { name } = req.params;
+  const chapter = async (
+    req: FastifyRequest<ChapterRequest>,
+    res: FastifyReply,
+  ) => {
+    const { novel, chapter } = req.params;
+    const slug = `${novel}/${chapter}`;
 
-    const data = detailScrapper(fastify, name);
+    const data = await chapterScrapper(fastify, slug);
 
     return res.send(data);
   };
