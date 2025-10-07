@@ -1,4 +1,4 @@
-export type listNovel = {
+export type ListNovel = {
   title: string;
   url: string;
   author: string;
@@ -12,10 +12,13 @@ export type listNovel = {
 export type NormalizedListNovel = {
   title: string;
   author: string;
+
   absoluteUrl: string;
   path: string;
   slug: string;
+
   coverAbsoluteUrl: string;
+
   latestChapter: {
     title: string;
     absoluteUrl: string;

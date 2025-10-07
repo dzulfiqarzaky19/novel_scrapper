@@ -18,7 +18,7 @@ export type GenreRequest = ListRequest & {
 
 export type NovelRequest = {
   Params: {
-    novel: string;
+    name: string;
   };
 };
 
