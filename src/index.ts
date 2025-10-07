@@ -2,7 +2,7 @@
 import Fastify from 'fastify';
 import puppeteerPlugin from './plugins/puppeteer/puppeteer.js';
 import redisPlugin from './plugins/redis.js';
-import novelRoutes from './routes/novlove.js';
+import novelRoutes from './routes/novlove.router.js';
 
 async function main() {
   const app = Fastify({ logger: true });
