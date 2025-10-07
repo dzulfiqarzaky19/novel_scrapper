@@ -77,12 +77,12 @@ export const NovloveController = (fastify: FastifyInstance) => {
     req: FastifyRequest<NovelRequest>,
     res: FastifyReply,
   ) => {
-    const { novel } = req.params;
+    const { name } = req.params;
 
     const data = await redisCache(fastify, {
-      key: `${NOVLOVE_CONFIG.detail.redis_key}:${novel}`,
+      key: `${NOVLOVE_CONFIG.detail.redis_key}:${name}`,
       ttl: NOVLOVE_CONFIG.detail.ttl_seconds,
-      fetcher: () => detailScrapper(fastify, novel),
+      fetcher: () => detailScrapper(fastify, name),
     });
 
     return res.send(data);
@@ -92,8 +92,8 @@ export const NovloveController = (fastify: FastifyInstance) => {
     req: FastifyRequest<ChapterRequest>,
     res: FastifyReply,
   ) => {
-    const { novel, chapter } = req.params;
-    const slug = `${novel}/${chapter}`;
+    const { name, chapter } = req.params;
+    const slug = `${name}/${chapter}`;
 
     const data = await chapterScrapper(fastify, slug);
 
