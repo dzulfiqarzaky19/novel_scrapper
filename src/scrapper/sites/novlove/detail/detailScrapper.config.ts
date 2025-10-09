@@ -1,3 +1,16 @@
+const X_ALT =
+  './/ul[contains(@class,"info-meta")]/li[h3[normalize-space()="Alternative names:"] or h3[normalize-space()="Alternate names:"]]';
+const X_AUTH =
+  './/ul[contains(@class,"info-meta")]/li[h3[normalize-space()="Author:"]]';
+const X_GENRE =
+  './/ul[contains(@class,"info-meta")]/li[h3[normalize-space()="Genre:"]]';
+const X_STATUS =
+  './/ul[contains(@class,"info-meta")]/li[h3[normalize-space()="Status:"]]';
+const X_PUB =
+  './/ul[contains(@class,"info-meta")]/li[h3[normalize-space()="Publishers:"]]';
+const X_YEAR =
+  './/ul[contains(@class,"info-meta")]/li[h3[normalize-space()="Year of publishing:"]]';
+
 export const DETAIL_CONFIG = {
   url: 'https://novlove.com/novel/',
   selector: '#novel',
@@ -14,13 +27,13 @@ export const DETAIL_CONFIG = {
       value: '.rate-info [itemprop="ratingValue"]',
       count: '.rate-info [itemprop="reviewCount"]',
     },
-    alternateNames: '.info-meta li:nth-child(1)',
-    author: '.info-meta li:nth-child(2) a',
-    genres: '.info-meta li:nth-child(3) a',
-    status: '.info-meta li:nth-child(4) a',
-    publishers: '.info-meta li:nth-child(5)',
+    alternateNames: X_ALT,
+    author: X_AUTH,
+    genres: X_GENRE,
+    status: X_STATUS,
+    publishers: X_PUB,
     tags: '.tag-container a',
-    year: '.info-meta li:nth-child(7) a',
+    year: X_YEAR,
     li: '.info-meta li',
   },
 

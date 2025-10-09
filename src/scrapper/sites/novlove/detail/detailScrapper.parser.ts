@@ -4,55 +4,108 @@ export const parseDetail = (
   elements: Element[],
   config: DetailConfig['detail'],
 ) => {
-  const {
-    title,
-    rating,
-    alternateNames,
-    author,
-    genres,
-    status,
-    publishers,
-    tags,
-    year,
-  } = config;
+  const { title, rating, tags } = config;
 
-  return elements.map((root) => ({
-    title: root.querySelector(title)?.textContent?.trim() || '',
-    rating: {
-      value: root.querySelector(rating.value)?.textContent?.trim() || '',
-      count: root.querySelector(rating.count)?.textContent?.trim() || '',
-    },
-    alternateNames:
-      root
-        .querySelector(alternateNames)
-        ?.textContent?.replace('Alternative names:', '')
-        .trim() || '',
-    author: {
-      name: root.querySelector(author)?.textContent?.trim() || '',
-      url: root.querySelector(author)?.getAttribute('href') || '',
-    },
-    genres: Array.from(root.querySelectorAll(genres)).map((g) => ({
-      name: g.textContent?.trim() || '',
-      url: g.getAttribute('href') || '',
-    })),
-    status: {
-      text: root.querySelector(status)?.textContent?.trim() || '',
-      url: root.querySelector(status)?.getAttribute('href') || '',
-    },
-    publishers:
-      root
-        .querySelector(publishers)
-        ?.textContent?.replace('Publishers:', '')
-        .trim() || '',
-    tags: Array.from(root.querySelectorAll(tags)).map((t) => ({
+  return elements.map((root) => {
+    const titleText = root.querySelector(title)?.textContent?.trim() || '';
+    const ratingValue =
+      root.querySelector(rating.value)?.textContent?.trim() || '';
+    const ratingCount =
+      root.querySelector(rating.count)?.textContent?.trim() || '';
+
+    const altLi = document.evaluate(
+      config.alternateNames,
+      root,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null,
+    ).singleNodeValue as Element | null;
+    const altH3 = altLi?.querySelector('h3');
+    const alternateNames = altLi
+      ? (altLi.textContent || '').replace(altH3?.textContent || '', '').trim()
+      : '';
+
+    const authLi = document.evaluate(
+      config.author,
+      root,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null,
+    ).singleNodeValue as Element | null;
+    const authorA = authLi?.querySelector('a');
+
+    const genreLi = document.evaluate(
+      config.genres,
+      root,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null,
+    ).singleNodeValue as Element | null;
+    const genresArr = Array.from(genreLi?.querySelectorAll('a') || []).map(
+      (g) => ({
+        name: g.textContent?.trim() || '',
+        url: g.getAttribute('href') || '',
+      }),
+    );
+
+    const statusLi = document.evaluate(
+      config.status,
+      root,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null,
+    ).singleNodeValue as Element | null;
+    const statusA = statusLi?.querySelector('a');
+
+    const publishersLi = document.evaluate(
+      config.publishers,
+      root,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null,
+    ).singleNodeValue as Element | null;
+    const publishersH3 = publishersLi?.querySelector('h3');
+    const publishersText = publishersLi
+      ? (publishersLi.textContent || '')
+          .replace(publishersH3?.textContent || '', '')
+          .trim()
+      : '';
+
+    const yearLi = document.evaluate(
+      config.year,
+      root,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null,
+    ).singleNodeValue as Element | null;
+    const yearA = yearLi?.querySelector('a');
+
+    const tagsArr = Array.from(root.querySelectorAll(tags)).map((t) => ({
       name: t.textContent?.trim() || '',
       url: t.getAttribute('href') || '',
-    })),
-    year: {
-      text: root.querySelector(year)?.textContent?.trim() || '',
-      url: root.querySelector(year)?.getAttribute('href') || '',
-    },
-  }));
+    }));
+
+    return {
+      title: titleText,
+      rating: { value: ratingValue, count: ratingCount },
+      alternateNames,
+      author: {
+        name: authorA?.textContent?.trim() || '',
+        url: authorA?.getAttribute('href') || '',
+      },
+      genres: genresArr,
+      status: {
+        text: statusA?.textContent?.trim() || '',
+        url: statusA?.getAttribute('href') || '',
+      },
+      publishers: publishersText,
+      tags: tagsArr,
+      year: {
+        text: yearA?.textContent?.trim() || '',
+        url: yearA?.getAttribute('href') || '',
+      },
+    };
+  });
 };
 
 export const parseLatestChapter = (
