@@ -2,6 +2,11 @@ export const DETAIL_CONFIG = {
   url: 'https://novlove.com/novel/',
   selector: '#novel',
 
+  cover: {
+    selector: '.book',
+    img: 'img',
+    attr: ['data-src', 'src'],
+  },
   detail: {
     selector: '.desc',
     title: '.title',
@@ -16,6 +21,7 @@ export const DETAIL_CONFIG = {
     publishers: '.info-meta li:nth-child(5)',
     tags: '.tag-container a',
     year: '.info-meta li:nth-child(7) a',
+    li: '.info-meta li',
   },
 
   latest_chapter: {

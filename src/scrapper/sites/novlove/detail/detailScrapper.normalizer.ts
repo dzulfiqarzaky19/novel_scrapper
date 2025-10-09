@@ -7,6 +7,7 @@ import {
 import {
   ReturnTypeOfParseAuthorNovels,
   ReturnTypeOfParseChapters,
+  ReturnTypeOfParseCover,
   ReturnTypeOfParseDescription,
   ReturnTypeOfParseDetail,
   ReturnTypeOfParseLatestChapter,
@@ -114,5 +115,13 @@ export const normalizeAuthorNovels = (raws: ReturnTypeOfParseAuthorNovels) => {
       status: r.chapter.split('-\n')[0]?.trim(),
       chapter: r.chapter.split('-\n')[1]?.trim(),
     },
+  }));
+};
+
+export const normalizeCover = (raws: ReturnTypeOfParseCover) => {
+  return raws.map((raw) => ({
+    absoluteUrl: toAbsolute(raw.url),
+    path: toPath(raw.url),
+    slug: slugFromPath(toPath(raw.url)),
   }));
 };

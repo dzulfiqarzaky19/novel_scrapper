@@ -2,10 +2,12 @@
 import Fastify from 'fastify';
 import puppeteerPlugin from './plugins/puppeteer/puppeteer.js';
 import redisPlugin from './plugins/redis.js';
+import corsPlugin from './plugins/cors.js';
 import novelRoutes from './routes/novlove.router.js';
 
 async function main() {
   const app = Fastify({ logger: true });
+  app.register(corsPlugin);
   app.register(puppeteerPlugin);
   app.register(redisPlugin);
 

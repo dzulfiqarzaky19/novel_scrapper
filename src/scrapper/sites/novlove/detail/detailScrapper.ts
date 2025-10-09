@@ -4,6 +4,7 @@ import { DETAIL_CONFIG } from './detailScrapper.config.js';
 import {
   normalizeAuthorNovels,
   normalizeChapters,
+  normalizeCover,
   normalizeDescription,
   normalizeDetail,
   normalizeLatestChapter,
@@ -11,6 +12,7 @@ import {
 import {
   parseAuthorNovels,
   parseChapters,
+  parseCover,
   parseDescription,
   parseDetail,
   parseLatestChapter,
@@ -37,6 +39,7 @@ export const detailScrapper = async (
         rawDescription,
         rawChapters,
         rawAuthorNovels,
+        rawCover,
       ] = await Promise.all([
         evalOrEmpty({
           page,
@@ -68,9 +71,16 @@ export const detailScrapper = async (
           parser: parseAuthorNovels,
           config: DETAIL_CONFIG.author_novels,
         }),
+        evalOrEmpty({
+          page,
+          selector: DETAIL_CONFIG.selector,
+          parser: parseCover,
+          config: DETAIL_CONFIG.cover,
+        }),
       ]);
 
       return {
+        cover: normalizeCover(rawCover),
         detail: normalizeDetail(rawDetail),
         latest_chapter: normalizeLatestChapter(rawLatestChapter),
         description: normalizeDescription(rawDescription),

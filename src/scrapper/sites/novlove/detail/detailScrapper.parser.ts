@@ -1,4 +1,4 @@
-import { DETAIL_CONFIG, DetailConfig } from './detailScrapper.config.js';
+import { DetailConfig } from './detailScrapper.config.js';
 
 export const parseDetail = (
   elements: Element[],
@@ -116,6 +116,24 @@ export const parseAuthorNovels = (
   );
 };
 
+export const parseCover = (
+  elements: Element[],
+  config: DetailConfig['cover'],
+) => {
+  const { img, attr } = config;
+
+  return Array.from(elements).map((root) => {
+    const cover =
+      attr
+        .map((attr) => root.querySelector(img)?.getAttribute(attr))
+        .find(Boolean) || '';
+
+    return {
+      url: cover,
+    };
+  });
+};
+
 export type ReturnTypeOfParseDetail = ReturnType<typeof parseDetail>;
 export type ReturnTypeOfParseLatestChapter = ReturnType<
   typeof parseLatestChapter
@@ -125,3 +143,5 @@ export type ReturnTypeOfParseChapters = ReturnType<typeof parseChapters>;
 export type ReturnTypeOfParseAuthorNovels = ReturnType<
   typeof parseAuthorNovels
 >;
+
+export type ReturnTypeOfParseCover = ReturnType<typeof parseCover>;
