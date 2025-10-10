@@ -6,18 +6,12 @@ import { listScrapper } from '#scrapper/sites/novlove/list/listScrapper.js';
 
 import {
   ChapterRequest,
-  GenreRequest,
+  ListsRequest,
   NovelRequest,
-  SortRequest,
 } from 'src/model/novlove.model.js';
 import { NOVLOVE_CONFIG } from 'src/config/novlove.config.js';
 import { detailScrapper } from '#scrapper/sites/novlove/detail/detailScrapper.js';
 import { chapterScrapper } from '#scrapper/sites/novlove/chapter/chapterScrapper.js';
-
-const list = {
-  sort: 'sort',
-  genre: 'genre',
-} as const;
 
 const defaultQueryPage = '1';
 
@@ -32,39 +26,17 @@ export const NovloveController = (fastify: FastifyInstance) => {
     return res.send(data);
   };
 
-  const sort = async (req: FastifyRequest<SortRequest>, res: FastifyReply) => {
-    const { sort } = req.params;
+  const list = async (req: FastifyRequest<ListsRequest>, res: FastifyReply) => {
+    const { list, listType } = req.params;
     const page = req.query.page ?? defaultQueryPage;
 
     const data = await redisCache(fastify, {
-      key: NOVLOVE_CONFIG.sort.redis_key,
-      ttl: NOVLOVE_CONFIG.sort.ttl_seconds,
+      key: `${NOVLOVE_CONFIG.list.redis_key}:${list}:${listType}`,
+      ttl: NOVLOVE_CONFIG.list.ttl_seconds,
       fetcher: () =>
         listScrapper(fastify, {
-          listBy: sort,
-          listType: list.sort,
-          query: page,
-        }),
-      isSkipCache: page !== defaultQueryPage,
-    });
-
-    return res.send(data);
-  };
-
-  const genre = async (
-    req: FastifyRequest<GenreRequest>,
-    res: FastifyReply,
-  ) => {
-    const { genre } = req.params;
-    const page = req.query.page ?? defaultQueryPage;
-
-    const data = await redisCache(fastify, {
-      key: NOVLOVE_CONFIG.genre.redis_key,
-      ttl: NOVLOVE_CONFIG.genre.ttl_seconds,
-      fetcher: () =>
-        listScrapper(fastify, {
-          listBy: genre,
-          listType: list.genre,
+          list,
+          listType,
           query: page,
         }),
       isSkipCache: page !== defaultQueryPage,
@@ -100,5 +72,5 @@ export const NovloveController = (fastify: FastifyInstance) => {
     return res.send(data);
   };
 
-  return { home, sort, genre, novel, chapter };
+  return { home, list, novel, chapter };
 };

@@ -7,11 +7,9 @@ import { normalizeList } from './listScrapper.normalizer.js';
 import { evalOrEmpty } from '#scrapper/utils/evalOrEmpty.js';
 import { defaultScheduler } from '#scrapper/utils/jobScheduler.js';
 
-type ListType = 'genre' | 'sort';
-
 interface IListScrapperConfig {
-  listBy: string;
-  listType: ListType;
+  list: string;
+  listType: string;
   query: string;
 }
 
@@ -20,10 +18,10 @@ export const listScrapper = async (
   config: IListScrapperConfig,
 ) => {
   return defaultScheduler.addJob(async () => {
-    const { listBy, listType, query } = config;
+    const { list, listType, query } = config;
 
     const queryString = query === '1' ? '' : `?page=${query}`;
-    const pageUrl = `${LIST_CONFIG[listType]}${listBy}${queryString}`;
+    const pageUrl = `${LIST_CONFIG.url}${list}/${listType}${queryString}`;
 
     const page = await fastify.puppeteer.getPage(pageUrl, [
       LIST_CONFIG.selector,

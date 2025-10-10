@@ -11,6 +11,10 @@ export const NOVLOVE_CONFIG = {
     redis_key: 'novlove:genre',
     ttl_seconds: 6 * 60 * 60,
   },
+  list: {
+    redis_key: 'novlove:list',
+    ttl_seconds: 6 * 60 * 60,
+  },
   detail: {
     redis_key: 'novlove:detail',
     ttl_seconds: 7 * 24 * 60 * 60,

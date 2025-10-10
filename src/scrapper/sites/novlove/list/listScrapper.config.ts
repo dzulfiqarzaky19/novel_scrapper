@@ -1,6 +1,5 @@
 export const LIST_CONFIG = {
-  sort: 'https://novlove.com/sort/nov-love-',
-  genre: 'https://novlove.com/nov-love-genres/',
+  url: 'https://novlove.com/',
 
   selector: '#list-page .row',
   cover: {

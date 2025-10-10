@@ -4,15 +4,10 @@ export type ListRequest = {
   };
 };
 
-export type SortRequest = ListRequest & {
+export type ListsRequest = ListRequest & {
   Params: {
-    sort: string;
-  };
-};
-
-export type GenreRequest = ListRequest & {
-  Params: {
-    genre: string;
+    list: string;
+    listType: string;
   };
 };
 
