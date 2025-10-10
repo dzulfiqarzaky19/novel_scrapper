@@ -5,6 +5,8 @@ export default fp(async (fastify) => {
   fastify.register(cors, {
     origin: [
       process.env.NOVEL_CLIENT || 'http://localhost:5173',
+      process.env.VERCEL_CLIENT || '',
+      process.env.VERCEL_CLIENT_2 || '',
       'http://localhost:4173',
     ],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
